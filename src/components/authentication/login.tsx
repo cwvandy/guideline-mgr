@@ -19,7 +19,7 @@ const AuthenticationLogin = () => {
             <LoginForm />
           </div>
           <div className="text-muted-foreground flex justify-center gap-1 text-sm">
-            <p>Restricted access only.</p>
+            <p className="text-xs font-semibold uppercase">Restricted access only</p>
           </div>
         </div>
       </div>

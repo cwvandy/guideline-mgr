@@ -31,7 +31,7 @@ export async function login_credentials(email: string, password: string) {
 
 export async function logout() {
     try {
-        await signOut();
+        await signOut({ redirectTo: '/' });
     } catch (error) {
         throw error;
     }

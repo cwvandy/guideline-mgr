@@ -1,3 +1,9 @@
+/*
+** components/ui/label.tsx
+**
+** Copyright (C) 2025 • GDLN, LLC • All Rights Reserved
+*/
+
 "use client"
 
 import * as React from "react"

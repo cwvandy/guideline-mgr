@@ -19,27 +19,37 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
+    title: "Dashboard",
     url: "#",
     icon: Home,
   },
   {
-    title: "Inbox",
+    title: "Guides",
     url: "#",
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Clients",
     url: "#",
     icon: Calendar,
   },
   {
-    title: "Search",
+    title: "Trips",
     url: "#",
     icon: Search,
   },
   {
-    title: "Settings",
+    title: "Messages",
+    url: "#",
+    icon: Settings,
+  },
+  {
+    title: "Billing",
+    url: "#",
+    icon: Settings,
+  },
+  {
+    title: "Gary",
     url: "#",
     icon: Settings,
   },
@@ -50,7 +60,10 @@ export function DashboardSidebar() {
     <Sidebar>
         <SidebarContent>
             <SidebarGroup>
-                <SidebarGroupLabel>Application</SidebarGroupLabel>
+                <SidebarGroupLabel className="mt-3 mb-10">
+                  <img src="/GLMBadgeLight.svg" className="dark:hidden" />
+                  <img src="/GLMBadgeDark.svg" className="hidden dark:block" />
+                </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         {items.map((item) => (
