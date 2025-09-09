@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="fixed bottom-2 left-20 z-100">
+    <div className="fixed bottom-2 right-2 z-100">
       <Button variant="outline" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
         Toggle Theme
       </Button>
