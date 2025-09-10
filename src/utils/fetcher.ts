@@ -6,9 +6,10 @@
 
 import wretch, { Wretch, WretchError } from "wretch";
 import { AuthUtils } from "@/utils/auth";
+import userStore from "@/utils/user-store";
 
 // Extract necessary functions from the AuthUtils utility.
-const { handleJWTRefresh, storeToken, getToken } = AuthUtils();
+const { handleJWTRefresh, storeToken, getToken, removeTokens } = AuthUtils();
 
 const api = () => {
     return (
@@ -23,15 +24,18 @@ const api = () => {
                 // Store the new refresh token.
                 storeToken(refresh, "refresh");
                 // Replay the original request with the new access token.
-                return request
-                .auth(`Bearer ${access}`)
-                .fetch()
-                .unauthorized(() => {
-                    window.location.replace(process.env.NEXT_PUBLIC_LOGIN_PATH!);
+                return request.auth(`Bearer ${access}`).fetch().unauthorized(() => {
+                    removeTokens();
+                    if (typeof window !== 'undefined') {
+                        window.location.replace(process.env.NEXT_PUBLIC_LOGIN_PATH!);
+                    }
                 }).json();
-        } catch (err) {
-            window.location.replace(process.env.NEXT_PUBLIC_LOGIN_PATH!);
-        }
+            } catch (err) {
+                removeTokens();
+                if (typeof window !== 'undefined') {
+                    window.location.replace(process.env.NEXT_PUBLIC_LOGIN_PATH!);
+                }
+            }
       })
   );
 };

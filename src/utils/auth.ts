@@ -23,14 +23,14 @@ const api = wretch(process.env.NEXT_PUBLIC_BACKEND_URL).accept("application/json
 //     secure: Either true or false, indicating if the cookie transmission requires a secure protocol (https).
 //   sameSite: Allowing to control whether the browser is sending a cookie along with cross-site requests.
 // const cookies = Cookies.withAttributes({ expires: 7, domain: '.guidelineguides.com', secure: true, sameSite: 'Lax' });
-const cookies = Cookies.withAttributes({ expires: COOKIE_LIFETIME });
+const cookies = Cookies.withAttributes({expires: COOKIE_LIFETIME, sameSite: 'Lax'});
 
 /**
  * Stores a token in cookies.
  * @param {string} token - The token to be stored.
- * @param {"access" | "refresh"} type - The type of the token (access or refresh).
+ * @param {"access" | "refresh" | "userType"} type - The type of the token (access, refresh, userType).
  */
-const storeToken = (token: string, type: "access" | "refresh") => {
+const storeToken = (token: string, type: "access" | "refresh" | "userType") => {
     // TODO: encrypt
     //const sensitiveInfo = "mySecretData";
     //const encryptionKey = "yourSecretKey"; // Keep this secure!
@@ -43,7 +43,7 @@ const storeToken = (token: string, type: "access" | "refresh") => {
 
 /**
  * Retrieves a token from cookies.
- * @param {"access" | "refresh"} type - The type of the token to retrieve (access or refresh).
+ * @param {"access" | "refresh" | "userType" } type - The type of the token to retrieve (access, refresh, userType).
  * @returns {string | undefined} The token, if found.
  */
 const getToken = (type: string) => {
@@ -59,11 +59,12 @@ const getToken = (type: string) => {
 };
 
 /**
- * Removes both access and refresh tokens from cookies.
+ * Removes all tokens from cookies.
  */
 const removeTokens = () => {
-    cookies.remove("accessToken");
-    cookies.remove("refreshToken");
+    cookies.remove(COOKIE_PREFIX + "accessToken");
+    cookies.remove(COOKIE_PREFIX + "refreshToken");
+    cookies.remove(COOKIE_PREFIX + "userTypeToken");
 };
 
 /**

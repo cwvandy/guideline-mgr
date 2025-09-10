@@ -37,6 +37,8 @@ const login_form_schema = z.object({
 
 const AuthLoginForm = () => {
 
+    const router = useRouter();
+    const { login_credentials, storeToken } = AuthUtils();
     const [status, setStatus] = useState<"success" | "error" | "loading" | "idle">("idle");
     const [error, setError] = useState("");
 
@@ -49,20 +51,16 @@ const AuthLoginForm = () => {
         },
     })
 
-    const router = useRouter();
-    const { login_credentials, storeToken } = AuthUtils();
-
     // What to do when submitted
     const onSubmit = (data: z.infer<typeof login_form_schema>) => {
         setStatus("loading");
         login_credentials(data.email, data.password).json((json) => {
-            console.log("success");
             setStatus("success");
             storeToken(json.access, "access");
             storeToken(json.refresh, "refresh");
+            storeToken(json.user.user_type, "userType");
             router.push('/dashboard');
         }).catch((err) => {
-            console.log("error");
             setStatus("error");
             setError(err.json.non_field_errors);
             form.setError("root", { type: "manual", message: err.json.non_field_errors });
@@ -110,9 +108,9 @@ const AuthLoginForm = () => {
                 </div>
 
                 {status === "error" && 
-                    <div className="">
+                    <div className="text-center">
                         <p className="text-sm">{error}</p>
-                        <Link href="/auth/password/reset-password" className="">
+                        <Link href="/auth/password/reset-password" className="text-xs text-highlight font-semibold">
                             Forgot password?
                         </Link>
                     </div>
